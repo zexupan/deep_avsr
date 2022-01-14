@@ -9,13 +9,13 @@ args = dict()
 
 
 #project structure
-args["CODE_DIRECTORY"] = None   #absolute path to the code directory
-args["DATA_DIRECTORY"] = None   #absolute path to the data directory
+args["CODE_DIRECTORY"] = '/home/panzexu/workspace/deep_avsr/'   #absolute path to the code directory
+args["DATA_DIRECTORY"] = '/home/panzexu/datasets/LRS2/mvlrs_v1'   #absolute path to the data directory
 args["DEMO_DIRECTORY"] = None   #absolute path to the demo directory
-args["PRETRAINED_MODEL_FILE"] = "/final/models/pretrained_model.pt"     #relative path to the pretrained model file
-args["TRAINED_MODEL_FILE"] = "/final/models/trained_model.pt"   #relative path to the trained model file
-args["TRAINED_LM_FILE"] = None  #absolute path to the trained language model file
-args["TRAINED_FRONTEND_FILE"] = None #absolute path to the trained visual frontend file
+args["PRETRAINED_MODEL_FILE"] = 'deep_avsr_weights/audio-visual.pt'     #relative path to the pretrained model file
+args["TRAINED_MODEL_FILE"] = 'deep_avsr_weights/audio-visual.pt'   #relative path to the trained model file
+args["TRAINED_LM_FILE"] = '/home/panzexu/Documents/deep_avsr_weights/language_model.pt'  #absolute path to the trained language model file
+args["TRAINED_FRONTEND_FILE"] = '/home/panzexu/Documents/deep_avsr_weights/visual_frontend.pt' #absolute path to the trained visual frontend file
 
 
 #data
@@ -34,7 +34,7 @@ args["INDEX_TO_CHAR"] = {1:" ", 22:"'", 30:"1", 29:"0", 37:"3", 32:"2", 34:"5", 
 
 
 #audio preprocessing
-args["NOISE_PROBABILITY"] = 0.25    #noise addition probability while training
+args["NOISE_PROBABILITY"] = 0    #noise addition probability while training
 args["NOISE_SNR_DB"] = 0    #noise level in dB SNR
 args["STFT_WINDOW"] = "hamming" #window to use while computing STFT
 args["STFT_WIN_LENGTH"] = 0.040 #window size in secs for computing STFT

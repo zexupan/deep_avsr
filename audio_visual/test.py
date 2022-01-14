@@ -39,7 +39,7 @@ def main():
         noiseParams = {"noiseFile":args["DATA_DIRECTORY"] + "/noise.wav", "noiseProb":0, "noiseSNR":args["NOISE_SNR_DB"]}
     testData = LRS2Main("test", args["DATA_DIRECTORY"], args["MAIN_REQ_INPUT_LENGTH"], args["CHAR_TO_INDEX"], args["STEP_SIZE"],
                         audioParams, videoParams, noiseParams)
-    testLoader = DataLoader(testData, batch_size=args["BATCH_SIZE"], collate_fn=collate_fn, shuffle=True, **kwargs)
+    testLoader = DataLoader(testData, batch_size=1, collate_fn=collate_fn, shuffle=True, **kwargs)
 
 
     if args["TRAINED_MODEL_FILE"] is not None:

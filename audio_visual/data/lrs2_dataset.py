@@ -78,7 +78,7 @@ class LRS2Main(Dataset):
 
     def __init__(self, dataset, datadir, reqInpLen, charToIx, stepSize, audioParams, videoParams, noiseParams):
         super(LRS2Main, self).__init__()
-        with open(datadir + "/" + dataset + ".txt", "r") as f:
+        with open(datadir + "/" + dataset + "_list.txt", "r") as f:
             lines = f.readlines()
         self.datalist = [datadir + "/main/" + line.strip().split(" ")[0] for line in lines]
         self.reqInpLen = reqInpLen
@@ -87,7 +87,7 @@ class LRS2Main(Dataset):
         self.stepSize = stepSize
         self.audioParams = audioParams
         self.videoParams = videoParams
-        _, self.noise = wavfile.read(noiseParams["noiseFile"])
+        # _, self.noise = wavfile.read(noiseParams["noiseFile"])
         self.noiseSNR = noiseParams["noiseSNR"]
         self.noiseProb = noiseParams["noiseProb"]
         return
@@ -103,7 +103,9 @@ class LRS2Main(Dataset):
 
         #passing the sample files and the target file paths to the prepare function to obtain the input tensors
         audioFile = self.datalist[index] + ".wav"
+        audioFile = audioFile.replace('mvlrs_v1', 'audio_clean')
         visualFeaturesFile = self.datalist[index] + ".npy"
+        visualFeaturesFile = visualFeaturesFile.replace('mvlrs_v1', 'visual_embedding/lip')
         targetFile = self.datalist[index] + ".txt"
         if np.random.choice([True, False], p=[self.noiseProb, 1-self.noiseProb]):
             noise = self.noise
