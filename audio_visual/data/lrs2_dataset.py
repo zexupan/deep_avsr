@@ -78,9 +78,15 @@ class LRS2Main(Dataset):
 
     def __init__(self, dataset, datadir, reqInpLen, charToIx, stepSize, audioParams, videoParams, noiseParams):
         super(LRS2Main, self).__init__()
-        with open(datadir + "/" + dataset + "_list.txt", "r") as f:
-            lines = f.readlines()
-        self.datalist = [datadir + "/main/" + line.strip().split(" ")[0] for line in lines]
+        # with open(datadir + "/" + dataset + "_list.txt", "r") as f:
+        #     lines = f.readlines()
+        # self.datalist = [datadir + "/main/" + line.strip().split(" ")[0] for line in lines]
+
+        mix_lst=open('/home/panzexu/datasets/LRS2/audio_mixture/2_mix_min_asr/mixture_data_list_2mix.csv').read().splitlines()
+        lines=list(filter(lambda x: x.split(',')[0]=='test', mix_lst))
+        self.datalist = lines
+        # ['/home/panzexu/datasets/LRS2/audio_mixture/test/' + line.replace(',','_').replace('/','_') for line in lines]
+        
         self.reqInpLen = reqInpLen
         self.charToIx = charToIx
         self.dataset = dataset
@@ -102,11 +108,13 @@ class LRS2Main(Dataset):
             index = np.random.choice(ixs)
 
         #passing the sample files and the target file paths to the prepare function to obtain the input tensors
-        audioFile = self.datalist[index] + ".wav"
-        audioFile = audioFile.replace('mvlrs_v1', 'audio_clean')
-        visualFeaturesFile = self.datalist[index] + ".npy"
-        visualFeaturesFile = visualFeaturesFile.replace('mvlrs_v1', 'visual_embedding/lip')
-        targetFile = self.datalist[index] + ".txt"
+        line = self.datalist[index]
+        audioFile = '/home/panzexu/Download/eval_wer/avDprnn_14-01-2022(11:29:30)/' + line.replace(',','_').replace('/','_') + '.wav'
+        line=line.split(',')
+        c = 0
+        visualFeaturesFile = '/home/panzexu/datasets/LRS2/visual_embedding/lip/' + line[c*4+1]+'/'+line[c*4+2]+'/'+line[c*4+3]+'.npy' 
+        targetFile = visualFeaturesFile.replace('visual_embedding/lip', 'mvlrs_v1').replace('npy','txt')
+
         if np.random.choice([True, False], p=[self.noiseProb, 1-self.noiseProb]):
             noise = self.noise
         else:
